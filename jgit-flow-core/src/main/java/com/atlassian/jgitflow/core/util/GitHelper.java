@@ -190,7 +190,12 @@ public class GitHelper
             List<Ref> refs = git.branchList().setListMode(null).call();
             for (Ref ref : refs)
             {
-                String simpleName = ref.getName().substring(ref.getName().indexOf(Constants.R_HEADS) + Constants.R_HEADS.length());
+                String simpleName = ref.getName();
+                
+                if(simpleName.indexOf(Constants.R_HEADS) >= 0) {
+                    simpleName = simpleName.substring(ref.getName().indexOf(Constants.R_HEADS) + Constants.R_HEADS.length());
+                }
+                
                 if (simpleName.equals(branchName))
                 {
                     exists = true;
@@ -240,8 +245,12 @@ public class GitHelper
                     continue;
                 }
 
-                String simpleName = ref.getName().substring(ref.getName().indexOf(JGitFlowConstants.R_REMOTE_ORIGIN) + JGitFlowConstants.R_REMOTE_ORIGIN.length());
-
+                String simpleName = ref.getName();
+                
+                if(simpleName.indexOf(JGitFlowConstants.R_REMOTE_ORIGIN) >= 0) {
+                    simpleName = simpleName.substring(ref.getName().indexOf(JGitFlowConstants.R_REMOTE_ORIGIN) + JGitFlowConstants.R_REMOTE_ORIGIN.length());
+                }
+                
                 reporter.debugText(getName(), "ref simple name: " + simpleName);
 
                 reporter.debugText(getName(), "simple name equals branch? " + simpleName.equals(branch));
