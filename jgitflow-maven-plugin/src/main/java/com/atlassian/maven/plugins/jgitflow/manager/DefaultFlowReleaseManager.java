@@ -90,6 +90,7 @@ public class DefaultFlowReleaseManager extends AbstractProductionBranchManager
                                                  .setPush(ctx.isPushReleases())
                                                  .setKeepBranch(ctx.isKeepBranch())
                                                  .setNoTag(ctx.isNoTag())
+                                                 .setTagAsLatest(ctx.isTagAsLatest())
                                                  .setSquash(ctx.isSquash())
                                                  .setAllowUntracked(ctx.isAllowUntracked())
                                                  .setNoMerge(ctx.isNoReleaseMerge())

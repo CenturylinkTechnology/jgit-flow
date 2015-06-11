@@ -55,6 +55,12 @@ public class ReleaseFinishMojo extends AbstractJGitFlowMojo
      */
     @Parameter(defaultValue = "false", property = "noTag")
     private boolean noTag = false;
+    
+    /**
+     * Whether to tag the release as latest.
+     */
+    @Parameter(defaultValue = "false", property = "tagAsLatest")
+    private boolean tagAsLatest = false;
 
     /**
      * Whether to turn off project building. If true the project will NOT be built during release finish
@@ -144,6 +150,7 @@ public class ReleaseFinishMojo extends AbstractJGitFlowMojo
            .setKeepBranch(keepBranch)
            .setSquash(squash)
            .setNoTag(noTag)
+           .setTagAsLatest(tagAsLatest)
            .setNoBuild(noReleaseBuild)
            .setNoDeploy(noDeploy)
            .setUseReleaseProfile(useReleaseProfile)

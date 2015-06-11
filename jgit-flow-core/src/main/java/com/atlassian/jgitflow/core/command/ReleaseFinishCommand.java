@@ -61,6 +61,7 @@ public class ReleaseFinishCommand extends AbstractBranchMergingCommand<ReleaseFi
 
     private static final String SHORT_NAME = "release-finish";
     private boolean noTag;
+    private boolean tagAsLatest;
     private boolean squash;
     private boolean noMerge;
     private ReleaseFinishExtension extension;
@@ -79,6 +80,7 @@ public class ReleaseFinishCommand extends AbstractBranchMergingCommand<ReleaseFi
         super(releaseName, git, gfConfig);
         checkState(!StringUtils.isEmptyOrNull(releaseName));
         this.noTag = false;
+        this.tagAsLatest = false;
         this.squash = false;
         this.noMerge = false;
         this.extension = new EmptyReleaseFinishExtension();
@@ -129,6 +131,12 @@ public class ReleaseFinishCommand extends AbstractBranchMergingCommand<ReleaseFi
                 if (!noTag && masterResult.getMergeStatus().isSuccessful())
                 {
                     doTag(gfConfig.getMaster(), getMessage(), masterResult, extension);
+                }
+
+                // Tag as "latest"
+                if(tagAsLatest)
+                {
+                    doTag(gfConfig.getMaster(), getMessage(), masterResult, extension, "latest", true);
                 }
 
                 //IMPORTANT: we need to back-merge master into develop so that git describe works properly
@@ -187,6 +195,18 @@ public class ReleaseFinishCommand extends AbstractBranchMergingCommand<ReleaseFi
     public ReleaseFinishCommand setNoTag(boolean noTag)
     {
         this.noTag = noTag;
+        return this;
+    }
+    
+    /**
+     * Set whether to tag as latest
+     *
+     * @param tagAsLatest {@code true} to tag as latest, {@code false}(default) otherwise
+     * @return {@code this}
+     */
+    public ReleaseFinishCommand setTagAsLatest(boolean tagAsLatest)
+    {
+        this.tagAsLatest = tagAsLatest;
         return this;
     }
 

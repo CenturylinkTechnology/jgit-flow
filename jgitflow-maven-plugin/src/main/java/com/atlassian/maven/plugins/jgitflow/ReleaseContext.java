@@ -24,6 +24,7 @@ public class ReleaseContext
     private boolean keepBranch;
     private boolean squash;
     private boolean noTag;
+    private boolean tagAsLatest;
     private boolean noDeploy;
     private boolean noBuild;
     private boolean featureRebase;
@@ -75,6 +76,7 @@ public class ReleaseContext
         this.keepBranch = false;
         this.squash = false;
         this.noTag = false;
+        this.tagAsLatest = false;
         this.noDeploy = false;
         this.noBuild = false;
         this.featureRebase = false;
@@ -248,13 +250,24 @@ public class ReleaseContext
     {
         return noTag;
     }
-
+    
     public ReleaseContext setNoTag(boolean noTag)
     {
         this.noTag = noTag;
         return this;
     }
 
+    public boolean isTagAsLatest()
+    {
+        return tagAsLatest;
+    }
+    
+    public ReleaseContext setTagAsLatest(boolean tagAsLatest)
+    {
+        this.tagAsLatest = tagAsLatest;
+        return this;
+    }
+    
     public boolean isNoDeploy()
     {
         return noDeploy;

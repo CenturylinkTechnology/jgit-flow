@@ -114,11 +114,20 @@ public abstract class AbstractBranchMergingCommand<C, T> extends AbstractGitFlow
 
     protected void doTag(String branchToTag, String tagMessage, MergeResult resultToLog, BranchMergingExtension extension) throws GitAPIException, JGitFlowGitAPIException, JGitFlowExtensionException
     {
+        
+        String tagName = gfConfig.getPrefixValue(JGitFlowConstants.PREFIXES.VERSIONTAG.configKey()) + getBranchName();
+        
+        doTag(branchToTag, tagMessage, resultToLog, extension, tagName, false);
+        
+    }
+    
+    protected void doTag(String branchToTag, String tagMessage, MergeResult resultToLog, BranchMergingExtension extension, 
+            String tagName, boolean force) throws GitAPIException, JGitFlowGitAPIException, JGitFlowExtensionException
+    {
         runExtensionCommands(extension.beforeTag());
         git.checkout().setName(branchToTag).call();
-        String tagName = gfConfig.getPrefixValue(JGitFlowConstants.PREFIXES.VERSIONTAG.configKey()) + getBranchName();
 
-        if (!GitHelper.tagExists(git, tagName))
+        if (force || !GitHelper.tagExists(git, tagName))
         {
             reporter.infoText(
                     getCommandName(),
@@ -128,7 +137,7 @@ public abstract class AbstractBranchMergingCommand<C, T> extends AbstractGitFlow
                             resultToLog.getMergeStatus()
                     )
             );
-            git.tag().setName(tagName).setMessage(getScmMessagePrefix() + tagMessage + getScmMessageSuffix()).call();
+            git.tag().setName(tagName).setMessage(getScmMessagePrefix() + tagMessage + getScmMessageSuffix()).setForceUpdate(force).call();
         }
 
         runExtensionCommands(extension.afterTag());
