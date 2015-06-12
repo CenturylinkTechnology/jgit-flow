@@ -117,7 +117,7 @@ public abstract class AbstractGitFlowCommand<C, T> implements Callable<T>, JGitF
             {
                 reporter.infoText(getCommandName(), "pushing tags");
                 // TODO: check for errors or at least log error messages received
-                git.push().setRemote(Constants.DEFAULT_REMOTE_NAME).setPushTags().call();
+                git.push().setRemote(Constants.DEFAULT_REMOTE_NAME).setPushTags().setForce(true).call();
             }
 
             git.fetch().setRemote(Constants.DEFAULT_REMOTE_NAME).call();
